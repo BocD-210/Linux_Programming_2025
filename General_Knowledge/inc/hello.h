@@ -1,0 +1,2 @@
+void helloDo();
+void helloWorld();
