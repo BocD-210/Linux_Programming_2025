@@ -9,30 +9,30 @@ int listen_port;
 int listen_socket;
 pthread_t listen_thread;
 
-// function listens for connections
+// Function listens for connections
 void* listen_for_connections(void* arg) {
     struct sockaddr_in client_addr;
     socklen_t client_len = sizeof(client_addr);
     
     while (1) {
-        // Accept connections
+        // Accept connection
         int client_socket = accept(listen_socket, (struct sockaddr*)&client_addr, &client_len);
         if (client_socket < 0) {
             perror("accept");
             continue;
         }
         // Add new connection
-        int id = add_connection(client_socket, client_addr, 0);
+        int id = add_connection(client_socket, client_addr, 0) - 1;
         if (id < 0) {
             close(client_socket);
             continue;
         }
         
-        printf("\nReceived a new connection %s:%d (ID: %d)\n", 
+        printf("\nReceived a new connection %s : %d (ID: %d)\n", 
                inet_ntoa(client_addr.sin_addr), 
-               ntohs(client_addr.sin_port), 
+               htons(client_addr.sin_port), 
                id);
-        printf(">> "); //Show prompt again
+        printf(">> "); // Show prompt again
         fflush(stdout);
         
         // Create new thread to handle connection
@@ -49,17 +49,17 @@ void* listen_for_connections(void* arg) {
     return NULL;
 }
 
-// Create listening socket 
+// Listening socket 
 void init_listener(int port) {
     struct sockaddr_in server_addr;
     
-    // Create socket listening
+    // Create socket
     listen_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (listen_socket < 0) {
         error("Can't create socket");
     }
     
-    // Set socket address
+    // Set up socket address 
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
@@ -70,7 +70,7 @@ void init_listener(int port) {
         error("Can't Bind addr to socket");
     }
     
-    // Listening for connectioni
+    // Listening for connection
     if (listen(listen_socket, 5) < 0) {
         error("Can's listen connect");
     }
@@ -90,13 +90,13 @@ void init_listener(int port) {
 void connect_to_peer(const char* destination, int port) { // check khi gọi hàm connect
     struct sockaddr_in peer_addr;
     
-    // Kiểm tra địa chỉ IP
+    // Check IP
     if (!inet_aton(destination, &peer_addr.sin_addr)) {
         printf("IP addred invalid.\n");
         return;
     }
 
-    // Set peer's address to socket
+    // Set peer address information
     memset(&peer_addr, 0, sizeof(peer_addr));
     peer_addr.sin_family = AF_INET;
     peer_addr.sin_addr.s_addr = inet_addr(destination);
@@ -117,7 +117,7 @@ void connect_to_peer(const char* destination, int port) { // check khi gọi hà
     }
     
     // add new connection
-    int id = add_connection(peer_socket, peer_addr, 1);
+    int id = add_connection(peer_socket, peer_addr, 1) - 1;
     if (id < 0) {
         close(peer_socket);
         return;

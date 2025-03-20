@@ -1,0 +1,9 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "connection.h": "c",
+        "define.h": "c",
+        "server.h": "c",
+        "command.h": "c"
+    }
+}

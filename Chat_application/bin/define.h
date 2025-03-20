@@ -22,11 +22,11 @@
 
 // Connection information structure
 typedef struct {
-    int id;                 // ID of peer
+    int id;                 // ID 
     int socket;             // Socket descriptor
-    struct sockaddr_in addr; // address
+    struct sockaddr_in addr; // Address infor
     pthread_t thread;       // Thread handler connect
-    int is_active;          // Trạng thái kết nối
+    int is_active;          // Connection status
 } Connection;
 
 // Global variable extern - defined and allocated in connection.c

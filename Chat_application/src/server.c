@@ -5,7 +5,7 @@
 // Connection connections[MAX_CONNECTIONS];
 // pthread_mutex_t connections_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-// Hàm xử lý nhận tin nhắn từ peer
+// Function to handle receiving messages from peers
 void* handle_peer_connection(void* arg) {
     int conn_id = *((int*)arg);
     free(arg);
@@ -21,17 +21,17 @@ void* handle_peer_connection(void* arg) {
             // Connection closed or error
             printf("connect %s:%d closed.\n", 
                    inet_ntoa(conn->addr.sin_addr), 
-                   ntohs(conn->addr.sin_port));
+                   htons(conn->addr.sin_port));
             close_connection(conn_id);
             return NULL;
         }
         
         // Show received messages
-        printf("\nMessage from %d:%d is: %s\n", 
+        printf("\nMessage from %d : %d is: %s\n", 
                conn_id, 
                ntohs(conn->addr.sin_port), 
                buffer);
-        printf(">> "); // Show prompt again
+        printf("Command >> "); // Show prompt again
         fflush(stdout);
     }
     
@@ -59,5 +59,5 @@ void send_message(int id, const char* message) {
     printf("Sent message to %d (%s:%d).\n", 
        id, 
        inet_ntoa(connections[id].addr.sin_addr), 
-       ntohs(connections[id].addr.sin_port));
+       htons(connections[id].addr.sin_port));
 }

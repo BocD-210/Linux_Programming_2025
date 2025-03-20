@@ -30,10 +30,10 @@ int add_connection(int socket, struct sockaddr_in addr, int initiated_by_me) {
     //connections[index].initiated_by_me = initiated_by_me;
 
     printf("Add connection to %d (%s:%d).\n", index, 
-           inet_ntoa(addr.sin_addr), ntohs(addr.sin_port));
+           inet_ntoa(addr.sin_addr), htons(addr.sin_port));
 
     // Increase index, if exceed MAX_CONNECTIONS then return to 0
-    index = (index) % MAX_CONNECTIONS;
+    index = index + 1;
 
     pthread_mutex_unlock(&connections_mutex);
     return index;
@@ -54,7 +54,7 @@ void close_connection(int id) {
         
         printf("Closed connect %d (%s:%d).\n", id, 
                inet_ntoa(connections[id].addr.sin_addr), 
-               ntohs(connections[id].addr.sin_port));
+               htons(connections[id].addr.sin_port));
     }
     
     pthread_mutex_unlock(&connections_mutex);
@@ -75,7 +75,7 @@ void list_connections() {
             printf("%d\t%s\t\t%d\n", 
                    i, 
                    inet_ntoa(connections[i].addr.sin_addr), 
-                   ntohs(connections[i].addr.sin_port));
+                   htons(connections[i].addr.sin_port));
         }
     }
     

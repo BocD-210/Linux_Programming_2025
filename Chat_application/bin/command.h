@@ -3,7 +3,7 @@
 
 void signal_handler(int sig);
 
-// Function cleanup  before exiting
+// Cleanup function before exiting
 void cleanup();
 
 //show command line interface in chat app
