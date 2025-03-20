@@ -7,6 +7,7 @@
 **Chat application** is a app chat between devices(clients) but not need server, clients can directly send and receive message through **Socket Connection* and *TCP protocol*
 
 ### Main functional:
+
         - Connect to 1 or more peers at the same time
         - Manage connections
         - Send messages to peer and received message from peer
