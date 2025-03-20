@@ -14,23 +14,22 @@
 #include <errno.h>
 #include <signal.h>
 
-// Các hằng số chung
+// General constants
 #define MAX_CONNECTIONS 10
 #define MAX_BUFFER_SIZE 1024
 #define MAX_MESSAGE_SIZE 100
 #define MAX_COMMAND_SIZE 256
 
-// Cấu trúc thông tin kết nối
+// Connection information structure
 typedef struct {
-    int id;                 // ID kết nối
+    int id;                 // ID of peer
     int socket;             // Socket descriptor
-    struct sockaddr_in addr; // Thông tin địa chỉ
-    pthread_t thread;       // Thread xử lý kết nối
+    struct sockaddr_in addr; // address
+    pthread_t thread;       // Thread handler connect
     int is_active;          // Trạng thái kết nối
-    //int initiated_by_me;    // Kết nối được tạo bởi chương trình này
 } Connection;
 
-// Biến toàn cục extern - được định nghĩa và cấp phát trong connection.c
+// Global variable extern - defined and allocated in connection.c
 extern Connection connections[MAX_CONNECTIONS];
 extern int listen_port;
 extern int listen_socket;

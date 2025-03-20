@@ -18,7 +18,7 @@ void* handle_peer_connection(void* arg) {
         int bytes_received = recv(conn->socket, buffer, MAX_BUFFER_SIZE-1, 0);
         
         if (bytes_received <= 0) {
-            // Kết nối đã đóng hoặc có lỗi
+            // Connection closed or error
             printf("connect %s:%d closed.\n", 
                    inet_ntoa(conn->addr.sin_addr), 
                    ntohs(conn->addr.sin_port));
@@ -26,12 +26,12 @@ void* handle_peer_connection(void* arg) {
             return NULL;
         }
         
-        // Hiển thị tin nhắn nhận được
+        // Show received messages
         printf("\nMessage from %d:%d is: %s\n", 
                conn_id, 
                ntohs(conn->addr.sin_port), 
                buffer);
-        printf("Command >> "); // Hiển thị lại prompt
+        printf(">> "); // Show prompt again
         fflush(stdout);
     }
     

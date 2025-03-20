@@ -4,34 +4,24 @@
 #include "../bin/server.h"
 #include "../bin/socket.h"
 
-// Định nghĩa biến toàn cục
+// Define global variable
 int listen_port;
 int listen_socket;
 pthread_t listen_thread;
 
-// Hàm server lắng nghe kết nối
+// function listens for connections
 void* listen_for_connections(void* arg) {
     struct sockaddr_in client_addr;
     socklen_t client_len = sizeof(client_addr);
     
     while (1) {
-        // Chấp nhận kết nối
+        // Accept connections
         int client_socket = accept(listen_socket, (struct sockaddr*)&client_addr, &client_len);
         if (client_socket < 0) {
             perror("accept");
             continue;
         }
-        
-        // Kiểm tra kết nối trùng lặp
-        // if (connection_exists(client_addr)) {
-        //     printf("Đã từ chối kết nối trùng lặp từ %s:%d\n", 
-        //            inet_ntoa(client_addr.sin_addr), 
-        //            ntohs(client_addr.sin_port));
-        //     close(client_socket);
-        //     continue;
-        // }
-        
-        // Thêm kết nối mới
+        // Add new connection
         int id = add_connection(client_socket, client_addr, 0);
         if (id < 0) {
             close(client_socket);
@@ -42,10 +32,10 @@ void* listen_for_connections(void* arg) {
                inet_ntoa(client_addr.sin_addr), 
                ntohs(client_addr.sin_port), 
                id);
-        printf("Command : >> "); // Hiển thị lại prompt
+        printf(">> "); //Show prompt again
         fflush(stdout);
         
-        // Tạo thread mới để xử lý kết nối
+        // Create new thread to handle connection
         int* conn_id = malloc(sizeof(int));
         *conn_id = id;
         
@@ -59,36 +49,36 @@ void* listen_for_connections(void* arg) {
     return NULL;
 }
 
-// Hàm khởi tạo socket lắng nghe
+// Create listening socket 
 void init_listener(int port) {
     struct sockaddr_in server_addr;
     
-    // Tạo socket
+    // Create socket listening
     listen_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (listen_socket < 0) {
         error("Can't create socket");
     }
     
-    // Thiết lập thông tin địa chỉ server
+    // Set socket address
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
     server_addr.sin_port = htons(port);
     
-    // Gắn socket với port
+    // Bind port to socket
     if (bind(listen_socket, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
         error("Can't Bind addr to socket");
     }
     
-    // Lắng nghe kết nối
+    // Listening for connectioni
     if (listen(listen_socket, 5) < 0) {
         error("Can's listen connect");
     }
     
-    // Lưu port đang lắng nghe
+    // Save listening port
     listen_port = port;
     
-    // Tạo thread để xử lý các kết nối đến
+    // Create thread to handle incoming connections
     if (pthread_create(&listen_thread, NULL, listen_for_connections, NULL) != 0) {
         error("Can't create thread listen");
     }
@@ -96,7 +86,7 @@ void init_listener(int port) {
     printf("Listening for connections on port %d...\n", port);
 }
 
-// Hàm thiết lập kết nối đến peer khác
+// Function to establish a connection to another peer
 void connect_to_peer(const char* destination, int port) { // check khi gọi hàm connect
     struct sockaddr_in peer_addr;
     
@@ -105,15 +95,8 @@ void connect_to_peer(const char* destination, int port) { // check khi gọi hà
         printf("IP addred invalid.\n");
         return;
     }
-    
-    // Kiểm tra self-connection
-    // char* my_ip = get_my_ip();
-    // if (strcmp(destination, my_ip) == 0 && port == listen_port) {
-    //     printf("Không thể kết nối đến chính máy này.\n");
-    //     return;
-    // }
-    
-    // Thiết lập thông tin địa chỉ peer
+
+    // Set peer's address to socket
     memset(&peer_addr, 0, sizeof(peer_addr));
     peer_addr.sin_family = AF_INET;
     peer_addr.sin_addr.s_addr = inet_addr(destination);
