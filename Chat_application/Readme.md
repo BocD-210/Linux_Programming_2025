@@ -21,13 +21,13 @@
 
 ### Functinal requirements:
 - *Command Line Interface - CLI*:
-        - `help`: Show available commands
-        - `my ip & my port`: Show ip address and listening port
-        - `connect <IP> <port>`: Connect to IP and port of peer
-        - `list`: Show list connection
-        - `terminate <ID>` close connection ID
-        - `send <ID> <message>`: Send message to ID peer
-        - `exit`: Close all peer connect and exit app
+  - `help`: Show available commands
+  - `my ip & my port`: Show ip address and listening port
+  - `connect <IP> <port>`: Connect to IP and port of peer
+  - `list`: Show list connection
+  - `terminate <ID>` close connection ID
+  - `send <ID> <message>`: Send message to ID peer
+  - `exit`: Close all peer connect and exit app
 ---
 ### Non-Functional Requirements
 
