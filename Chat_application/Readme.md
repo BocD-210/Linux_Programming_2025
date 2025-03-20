@@ -20,7 +20,7 @@
 ## Features
 
 
-### Functinal requirements:
+### Functional requirements:
 - *Command Line Interface - CLI*:
   - `help`: Show available commands
   - `my ip & my port`: Show ip address and listening port
