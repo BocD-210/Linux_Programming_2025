@@ -1,4 +1,4 @@
-#include "../bin/define.h"
+#include "../bin/types.h"
 #include "../bin/command.h"
 #include "../bin/connection.h"
 #include "../bin/server.h"
@@ -27,6 +27,24 @@ void* listen_for_connections(void* arg) {
             close(client_socket);
             continue;
         }
+
+        //check: have this connected yet !
+        int retValue = 0;
+        for(int i = 0; i < MAX_CONNECTIONS; i++){
+            if(connections[i].is_active && connections[i].socket == client_socket
+                && connections[i].addr.sin_addr.s_addr == client_addr.sin_addr.s_addr  // can't use "==" to compare 2 struct => need pointer to s_addr in struct in_addr
+                && connections[i].addr.sin_port == client_addr.sin_port)
+            {
+                retValue = -1;
+                break;
+            }
+        }
+
+        if(retValue != 0){
+            printf("New connections: %s : %d connected yet ! Not create new connection!\n", 
+                    inet_ntoa(client_addr.sin_addr), 
+                    htons(client_addr.sin_port));
+        }
         
         printf("\nReceived a new connection %s : %d (ID: %d)\n", 
                inet_ntoa(client_addr.sin_addr), 
@@ -42,7 +60,7 @@ void* listen_for_connections(void* arg) {
         if (pthread_create(&connections[id].thread, NULL, handle_peer_connection, conn_id) != 0) {
             perror("pthread_create");
             free(conn_id);
-            close_connection(id);
+            remove_connection(id);
         }
     }
     
@@ -132,6 +150,6 @@ void connect_to_peer(const char* destination, int port) { // check khi gọi hà
     if (pthread_create(&connections[id].thread, NULL, handle_peer_connection, conn_id) != 0) {
         perror("pthread_create");
         free(conn_id);
-        close_connection(id);
+        remove_connection(id);
     }
 }

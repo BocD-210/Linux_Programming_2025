@@ -1,5 +1,5 @@
 #include "../bin/command.h"
-#include "../bin/define.h"
+#include "../bin/types.h"
 #include "../bin/connection.h"
 #include "../bin/server.h"
 #include "../bin/socket.h"
@@ -104,7 +104,7 @@ int command_handler(char* command) {
         arg1 = strtok(NULL, " ");
         
         if (arg1) {
-            close_connection(atoi(arg1));
+            remove_connection(atoi(arg1));
         } else {
             printf("Use: terminate <connection id>\n");
         }

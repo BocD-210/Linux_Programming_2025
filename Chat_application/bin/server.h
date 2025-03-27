@@ -6,5 +6,4 @@ void* handle_peer_connection(void* arg);
 
 void send_message(int id, const char* message);
 
-
 #endif 

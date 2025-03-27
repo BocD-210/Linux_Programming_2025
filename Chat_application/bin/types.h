@@ -1,5 +1,5 @@
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef TYPES_H
+#define TYPES_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +19,11 @@
 #define MAX_BUFFER_SIZE 1024
 #define MAX_MESSAGE_SIZE 100
 #define MAX_COMMAND_SIZE 256
+#define CHECK_KEEP_ALIVE "Keep_alive"
+
+typedef struct {
+    
+} Connection_manager;
 
 // Connection information structure
 typedef struct {
@@ -30,10 +35,12 @@ typedef struct {
 } Connection;
 
 // Global variable extern - defined and allocated in connection.c
+extern char resp_keep_alive[10];
 extern Connection connections[MAX_CONNECTIONS];
 extern int listen_port;
 extern int listen_socket;
 extern pthread_t listen_thread;
 extern pthread_mutex_t connections_mutex;
+extern pthread_mutex_t keep_alive; 
 
 #endif /* COMMON_H */

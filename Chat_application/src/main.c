@@ -1,6 +1,6 @@
 #include "../bin/command.h"
 #include "../bin/connection.h"
-#include "../bin/define.h"
+#include "../bin/types.h"
 #include "../bin/server.h"
 #include "../bin/socket.h"
 
