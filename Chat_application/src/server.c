@@ -1,5 +1,5 @@
-#include "../bin/connection.h"
-#include "../bin/types.h"
+#include "../inc/connection.h"
+#include "../inc/types.h"
 
 // Function to handle receiving messages from peers
 void* handle_peer_connection(void* arg) {
