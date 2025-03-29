@@ -1,8 +1,8 @@
-#include "../bin/connection.h"
-#include "../bin/types.h"
-#include "../bin/command.h"
-#include "../bin/socket.h"
-#include "../bin/server.h"
+#include "../inc/connection.h"
+#include "../inc/types.h"
+#include "../inc/command.h"
+#include "../inc/socket.h"
+#include "../inc/server.h"
 
 Connection connections[MAX_CONNECTIONS];
 pthread_mutex_t connections_mutex = PTHREAD_MUTEX_INITIALIZER;
