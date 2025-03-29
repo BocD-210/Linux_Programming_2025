@@ -1,8 +1,8 @@
-#include "../bin/command.h"
-#include "../bin/types.h"
-#include "../bin/connection.h"
-#include "../bin/server.h"
-#include "../bin/socket.h"
+#include "../inc/command.h"
+#include "../inc/types.h"
+#include "../inc/connection.h"
+#include "../inc/server.h"
+#include "../inc/socket.h"
 
 void error(const char *msg) {
     perror(msg);
