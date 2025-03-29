@@ -1,8 +1,8 @@
-#include "../bin/types.h"
-#include "../bin/command.h"
-#include "../bin/connection.h"
-#include "../bin/server.h"
-#include "../bin/socket.h"
+#include "../inc/types.h"
+#include "../inc/command.h"
+#include "../inc/connection.h"
+#include "../inc/server.h"
+#include "../inc/socket.h"
 
 // Define global variable
 int listen_port;
